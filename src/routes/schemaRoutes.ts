@@ -1,4 +1,5 @@
-import Router from 'koa-router';
+// 使用 require 导入 Router 并添加类型声明
+const Router = require('koa-router') as any;
 import {
   createSchema,
   getSchemaList,

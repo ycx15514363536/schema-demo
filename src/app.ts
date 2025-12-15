@@ -1,9 +1,9 @@
-import Koa from 'koa';
-import koaBody from 'koa-body';
+import bodyParser from 'koa-bodyparser';
 import { errorMiddleware } from './middleware/error';
 import { responseMiddleware } from './middleware/response';
 import schemaRouter from './routes/schemaRoutes';
 
+const Koa = require('koa') as any;
 // 创建 Koa 应用实例
 const app = new Koa();
 
@@ -11,13 +11,7 @@ const app = new Koa();
 app.use(errorMiddleware);
 
 // 2. 解析请求体中间件（解析 JSON/表单）
-app.use(
-  koaBody({
-    json: true,
-    urlencoded: true,
-    text: true,
-  })
-);
+app.use(bodyParser());
 
 // 3. 统一响应封装中间件
 app.use(responseMiddleware);
