@@ -1,0 +1,32 @@
+{
+  "name": "schema-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [],
+  "author": "chengxin.you",
+  "license": "ISC",
+  "description": "koa-demo",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "koa": "^3.1.1",
+    "koa-body": "^7.0.0",
+    "koa-router": "^12.0.1",
+    "mysql2": "^3.15.3"
+  },
+  "devDependencies": {
+    "@types/koa": "^3.0.1",
+    "@types/koa-router": "^7.4.9",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "nodemon": "^3.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
