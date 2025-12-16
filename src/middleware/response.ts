@@ -20,6 +20,7 @@ export const responseMiddleware = async (ctx: Context, next: Next): Promise<void
     };
     ctx.body = response;
     ctx.status = 200;
+    ctx.set('Content-Type', 'application/json; charset=utf-8');
   };
 
   // 失败响应：自定义 code 和 message
@@ -31,6 +32,7 @@ export const responseMiddleware = async (ctx: Context, next: Next): Promise<void
     };
     ctx.body = response;
     ctx.status = code; // HTTP 状态码与业务码一致
+    ctx.set('Content-Type', 'application/json; charset=utf-8');
   };
 
   // 执行后续中间件（路由/控制器）

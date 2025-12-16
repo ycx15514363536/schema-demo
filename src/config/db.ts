@@ -19,7 +19,28 @@ const pool = mysql.createPool({
 // 2. 初始化数据库（首次运行创建库和表）
 const initDB = async (): Promise<void> => {
   try {
-    // 直接切换到已创建的数据库（不再检查/创建数据库）
+    // 创建临时连接（不指定数据库）
+    const tempPool = mysql.createPool({
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      connectionLimit: 1,
+    });
+
+    // 检查数据库是否存在，不存在则创建
+    const [dbExist] = await tempPool.query(`SHOW DATABASES LIKE '${process.env.DB_NAME}'`);
+    if ((dbExist as any[]).length === 0) {
+      await tempPool.query(`CREATE DATABASE ${process.env.DB_NAME}`);
+      console.log(`✅ 数据库 ${process.env.DB_NAME} 创建成功`);
+    } else {
+      console.log(`✅ 数据库 ${process.env.DB_NAME} 已存在，无需创建`);
+    }
+
+    // 关闭临时连接池
+    await tempPool.end();
+
+    // 切换到已创建的数据库
     await pool.query(`USE ${process.env.DB_NAME}`);
 
     // 检查 schema_table 表是否存在，不存在则创建
