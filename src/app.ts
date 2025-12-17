@@ -1,23 +1,15 @@
-import bodyParser from 'koa-bodyparser';
-import { errorMiddleware } from './middleware/error';
-import { responseMiddleware } from './middleware/response';
-import schemaRouter from './routes/schemaRoutes';
+import bodyParser from 'koa-bodyparser'
+import { errorMiddleware } from './middleware/error'
+import { responseMiddleware } from './middleware/response'
+import schemaRouter from './routes/schemaRoutes'
 
-const Koa = require('koa') as any;
-// 创建 Koa 应用实例
-const app = new Koa();
+const Koa = require('koa') as any
+const app = new Koa()
 
-// 1. 错误处理中间件（第一个注册）
-app.use(errorMiddleware);
+app.use(errorMiddleware)
+app.use(bodyParser())
+app.use(responseMiddleware)
 
-// 2. 解析请求体中间件（解析 JSON/表单）
-app.use(bodyParser());
+app.use(schemaRouter.routes()).use(schemaRouter.allowedMethods())
 
-// 3. 统一响应封装中间件
-app.use(responseMiddleware);
-
-// 4. 注册路由
-app.use(schemaRouter.routes()).use(schemaRouter.allowedMethods());
-// allowedMethods：处理 405（方法不允许）/501（未实现）错误
-
-export default app;
+export default app
